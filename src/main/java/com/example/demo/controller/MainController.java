@@ -12,22 +12,22 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @CrossOrigin
-@RequestMapping("/payment/")
+@RequestMapping("/payment1/")
 public class MainController extends BaseController {
 
     @Autowired
     PaymentService paymentService;
 
-    @PostMapping(value = "payment")
-    @ResponseBody
-    public ResponseEntity payment(@RequestBody PaymentReq paymentReq) {
-        try {
-            PaymentRes response = paymentService.payment(paymentReq);
-            return success(response);
-        } catch (ApplicationException e) {
-            return error(e.getCode(), e.getMessage());
-        }
-    }
+//    @PostMapping(value = "payment1")
+//    @ResponseBody
+//    public ResponseEntity payment(@RequestBody PaymentReq paymentReq) {
+//        try {
+//            PaymentRes response = paymentService.payment(paymentReq);
+//            return success(response);
+//        } catch (ApplicationException e) {
+//            return error(e.getCode(), e.getMessage());
+//        }
+//    }
 
     @PostMapping(value = "getTransaction")
     @ResponseBody

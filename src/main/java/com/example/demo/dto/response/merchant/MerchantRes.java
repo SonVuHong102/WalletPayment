@@ -9,4 +9,5 @@ import lombok.Data;
 @Data
 public class MerchantRes implements IResponseData {
     Merchant merchant;
+    int transactionId;
 }

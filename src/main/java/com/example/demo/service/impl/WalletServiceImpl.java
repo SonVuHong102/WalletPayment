@@ -1,9 +1,11 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.dto.request.merchant.MerchantReq;
+import com.example.demo.dto.request.payment.PaymentReq;
 import com.example.demo.dto.request.transaction.TransactionReq;
 import com.example.demo.dto.request.wallet.WalletReq;
 import com.example.demo.dto.response.merchant.MerchantRes;
+import com.example.demo.dto.response.payment.PaymentRes;
 import com.example.demo.dto.response.transaction.TransactionRes;
 import com.example.demo.dto.response.wallet.WalletRes;
 import com.example.demo.model.Merchant;
@@ -17,9 +19,11 @@ import com.example.demo.repository.WalletRepository;
 import com.example.demo.service.EmailService;
 import com.example.demo.service.WalletService;
 import com.example.demo.utils.Constants;
+import com.example.demo.utils.HashTool;
 import com.example.demo.utils.OTPGenerator;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -42,10 +46,29 @@ public class WalletServiceImpl implements WalletService {
     EmailService emailService;
 
     @Override
-    public MerchantRes merchantVerify(@RequestBody MerchantReq merchantReq) {
+    public PaymentRes payment(PaymentReq paymentReq) {
+        PaymentRes paymentRes = new PaymentRes();
+        // Xac minh xong
+        Transaction transaction = new Transaction();
+        BeanUtils.copyProperties(paymentReq,transaction);
+        return null;
+
+    }
+
+    @Override
+    public MerchantRes merchantVerify(@RequestBody PaymentReq paymentReq) {
         MerchantRes merchantRes = new MerchantRes();
-        Merchant merchant = merchantRepository.verifyMerchant(merchantReq.getMerchantId(),merchantReq.getSecureCode());
-        merchantRes.setMerchant(merchant);
+        Merchant merchant = merchantRepository.getMerchant(paymentReq.getSp_merchantId());
+        if(merchant != null) {
+//            if(paymentReq.getSp_secureHash().compareTo(HashTool.sha256hash(merchant.getSecureCode()))!=0)
+//                return merchantRes;
+            merchantRes.setMerchant(merchant);
+            Transaction transaction = new Transaction();
+            BeanUtils.copyProperties(paymentReq,transaction);
+            transaction.setStatus(Constants.STATUS_PENDING);
+            transaction = transactionRepository.save(transaction);
+            merchantRes.setTransactionId(transaction.getId());
+        }
         return merchantRes;
     }
 
@@ -62,7 +85,12 @@ public class WalletServiceImpl implements WalletService {
         WalletRes walletRes = new WalletRes();
         String otpNum = OTPGenerator.genOTP();
         emailService.sendSimpleMessage(walletReq.getEmail(),walletReq.getOwner() + " OTP",otpNum);
-        OTP opt = new OTP();
+        OTP otp = new OTP();
+        otp.setOtpCode(otpNum);
+        otp.setWalletId(walletReq.getId());
+        otp.setTransactionId(walletReq.getTransactionId());
+        otp = otpRepository.save(otp);
+        walletRes.setOtpId(otp.getId());
         return walletRes;
     }
 
@@ -81,19 +109,19 @@ public class WalletServiceImpl implements WalletService {
     @Override
     public TransactionRes makeTransaction(TransactionReq transactionReq) {
         TransactionRes transactionRes = new TransactionRes();
-        Wallet wallet = walletRepository.getById(transactionReq.getWalletId());
-        long walletAmount = wallet.getBalance() - transactionReq.getAmount();
-        walletRepository.makeTransaction(wallet.getId(),walletAmount);
-        Merchant merchant = merchantRepository.getMerchant(transactionReq.getMerchantId());
-        long merchantAmount = merchant.getBalance() + transactionReq.getAmount();
-        merchantRepository.makeTransaction(transactionReq.getMerchantId(),merchantAmount);
-        wallet = walletRepository.getById(wallet.getId());
-        Transaction transaction = new Transaction();
-        BeanUtils.copyProperties(transactionReq,transaction);
-        transaction.setStatus(Constants.STATUS_DONE);
-        transaction.setWalletId(wallet.getId());
-        transactionRepository.save(transaction);
-        transactionRes.setTransaction(transaction);
+//        Wallet wallet = walletRepository.getById(transactionReq.getWalletId());
+//        long walletAmount = wallet.getBalance() - transactionReq.getAmount();
+//        walletRepository.makeTransaction(wallet.getId(),walletAmount);
+//        Merchant merchant = merchantRepository.getMerchant(transactionReq.getMerchantId());
+//        long merchantAmount = merchant.getBalance() + transactionReq.getAmount();
+//        merchantRepository.makeTransaction(transactionReq.getMerchantId(),merchantAmount);
+//        wallet = walletRepository.getById(wallet.getId());
+//        Transaction transaction = new Transaction();
+//        BeanUtils.copyProperties(transactionReq,transaction);
+//        transaction.setStatus(Constants.STATUS_DONE);
+//        transaction.setWalletId(wallet.getId());
+//        transactionRepository.save(transaction);
+//        transactionRes.setTransaction(transaction);
         return transactionRes;
     }
 
@@ -103,5 +131,13 @@ public class WalletServiceImpl implements WalletService {
         Transaction transaction = transactionRepository.getById(transactionReq.getId());
         transactionRes.setTransaction(transaction);
         return transactionRes;
+    }
+
+    @Override
+    public PaymentRes transactionchecking(PaymentReq paymentReq) {
+        PaymentRes paymentRes = new PaymentRes();
+        Transaction transaction = transactionRepository.getTransaction(paymentReq.getSp_merchantId(),paymentReq.getSp_orderId());
+        paymentRes.setTransaction(transaction);
+        return paymentRes;
     }
 }

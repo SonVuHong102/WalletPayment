@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Thanh toán trực tuyến | SONPAY</title>
+</head>
+<body>
+    <form method="post" th:action="@{/inputPayment}" th:object="${inputForm}">
+        <h1>Thanh toán trực tuyến SONPAY</h1>
+        <h4>Xác thực thanh toán</h4>
+        <h5>Nhập số điện thoại : </h5>
+        <input name="phonenumber" type="text" th:field="*{phoneNumber}">
+        <h5>Nhập mật khẩu : </h5>
+        <input name="password" type="password" th:field="*{password}">
+        <input type="submit" value="tiến hành">
+    </form>
+</body>
+</html>

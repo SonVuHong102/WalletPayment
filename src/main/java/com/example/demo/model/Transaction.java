@@ -13,15 +13,15 @@ import javax.persistence.Table;
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class Transaction extends BaseEntity{
     @Column(nullable = false)
-    int merchantId;
+    int sp_merchantId;
     @Column(nullable = false)
-    Long amount;
-    int walletId;
+    Long sp_amount;
+    int sp_walletId;
     @Column(nullable = false)
-    int orderId;
-    String orderDescription = "";
+    int sp_orderId;
+    String sp_orderDescription = "";
     @Column(nullable = false)
-    String returnUrl;
+    String sp_returnUrl;
     @Column(nullable = false)
     String status;
     String errorCode;

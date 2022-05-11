@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Thanh toán trực tuyến | SONPAY</title>
+</head>
+<body>
+<form method="post"
+      th:action="@{/merchantVerify(sp_merchantId=1,sp_amount='15000',sp_orderId=100,sp_orderDescription='Some Description',sp_returnUrl='https://www.google.com',sp_secureHash='Some Hash')}">
+    <input type="submit" value="thanh toán">
+</form>
+<form method="post"
+      th:action="@{/transactionchecking(sp_merchantId=1,sp_amount='15000',sp_orderId=100,sp_orderDescription='Some Description',sp_secureCode='Some Code')}">
+    <input type="submit" value="kiểm tra">
+</form>
+</body>
+</html>

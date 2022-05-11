@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Thanh toán trực tuyến | SONPAY</title>
+</head>
+    <body>
+        <form method="post" th:action="@{/result}" th:object="${inputOTP}">
+            <h1>Thanh toán trực tuyến SONPAY</h1>
+            <h4>Kiểm tra thông tin thanh toán</h4>
+            <h5 >Nội dung thanh toán :  </h5><b th:text="${transaction.sp_orderDescription}"></b>
+            <h5>Số tiền :  </h5><b th:text="${transaction.sp_amount}"></b>
+            <h5>Nhập OTP đã gửi đến email để tiếp tục : </h5>
+            <input type="number" name="otp" th:field="*{otp}">
+            <a href="javascript:history.go(-1)">Hủy bỏ</a>
+            <input type="submit" value="tiến hành">
+        </form>
+    </body>
+</html>

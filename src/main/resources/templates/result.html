@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Thanh toán trực tuyến | SONPAY</title>
+    <meta http-equiv="refresh" th:content="${session.autoreturnUrl}">
+</head>
+    <body>
+        <h1>Thanh toán trực tuyến SONPAY</h1>
+        <h4>Thanh Toán thành công</h4>
+<!--        <h5>Bạn sẽ được quay trở lại trang TMDT sau 3 giây</h5>-->
+        <h5>Nếu không được quay trở lại vui lòng bấm <a th:href="${session.returnUrl}">tại đây</a> </h5>
+        <h4>Cảm ơn bạn đã thanh toán với SONPAY</h4>
+    </body>
+</html>

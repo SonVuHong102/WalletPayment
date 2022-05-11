@@ -9,6 +9,7 @@ public class WalletReq extends Wallet implements IRequestData {
     int merchantId;
     long amount;
     int orderId;
+    int transactionId;
     String orderDescription;
     String returnUrl;
 }

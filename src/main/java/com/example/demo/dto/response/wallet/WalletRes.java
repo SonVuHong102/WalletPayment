@@ -9,4 +9,5 @@ import lombok.Data;
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class WalletRes implements IResponseData {
     Wallet wallet;
+    int otpId = -1;
 }

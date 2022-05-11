@@ -40,13 +40,13 @@ public class PaymentServiceImpl implements PaymentService {
         if(walletRes.getWallet() == null) {
             throw new ApplicationException("ERR_0002");
         }
-        if(walletRes.getWallet().getBalance() < paymentReq.getAmount()) {
-            throw new ApplicationException("ERR_0003");
-        }
+//        if(walletRes.getWallet().getBalance() < paymentReq.getAmount()) {
+//            throw new ApplicationException("ERR_0003");
+//        }
         uri = "http://localhost:8080/wallet/makeTransaction";
         TransactionReq transactionReq = new TransactionReq();
         BeanUtils.copyProperties(paymentReq,transactionReq);
-        transactionReq.setWalletId(walletRes.getWallet().getId());
+        transactionReq.setSp_walletId(walletRes.getWallet().getId());
         TransactionRes transactionRes = restTemplate.postForObject(uri,transactionReq, TransactionRes.class);
         if(transactionRes == null)
             throw new ApplicationException("ERR_0000");
@@ -54,7 +54,7 @@ public class PaymentServiceImpl implements PaymentService {
             throw new ApplicationException("ERR_0004");
         }
         paymentRes.setStatus(Constants.STATUS_DONE);
-        paymentRes.setReturnUrl(paymentReq.getReturnUrl());
+//        paymentRes.setReturnUrl(paymentReq.getReturnUrl());
         return paymentRes;
     }
 
@@ -63,7 +63,7 @@ public class PaymentServiceImpl implements PaymentService {
         PaymentRes paymentRes = new PaymentRes();
         String uri = "http://localhost:8080/wallet/getTransaction";
         TransactionReq transactionReq = new TransactionReq();
-        transactionReq.setId(paymentReq.getTransactionId());
+//        transactionReq.setId(paymentReq.getTransactionId());
         RestTemplate restTemplate = new RestTemplate();
         TransactionRes transactionRes = restTemplate.postForObject(uri,transactionReq, TransactionRes.class);
         if(transactionRes == null)

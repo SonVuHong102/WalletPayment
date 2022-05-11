@@ -10,4 +10,5 @@ import lombok.Data;
 @Data
 public class TransactionRes implements IResponseData {
     Transaction transaction;
+    boolean success = false;
 }

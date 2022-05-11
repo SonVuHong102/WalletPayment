@@ -5,13 +5,10 @@ import lombok.Data;
 
 @Data
 public class PaymentReq implements IRequestData {
-    int merchantId;
-    long amount;
-    int orderId;
-    String orderDescription;
-    String phoneNumber;
-    String password;
-    String returnUrl;
-    String secureCode;
-    int transactionId;
+    int sp_merchantId;
+    long sp_amount;
+    int sp_orderId;
+    String sp_orderDescription;
+    String sp_returnUrl;
+    String sp_secureHash;
 }
