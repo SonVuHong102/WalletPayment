@@ -13,7 +13,7 @@ public class MessageUtils {
     private final static String BASE_NAME = "messages";
 
     public static String getMessage(String code, Locale language, Object... args) {
-        ResourceBundle resourceBundle = ResourceBundle.getBundle(BASE_NAME +"_vi");
+        ResourceBundle resourceBundle = ResourceBundle.getBundle(BASE_NAME +"_en");
         String message;
         try {
             message = resourceBundle.getString(code);

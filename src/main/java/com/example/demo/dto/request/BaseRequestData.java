@@ -8,9 +8,5 @@ import lombok.Data;
  */
 @Data
 public class BaseRequestData<T extends IRequestData> {
-    
-    private String wsCode;
-    private String sessionId;
-    private String token;
-    private T wsRequest;
+    private T request;
 }

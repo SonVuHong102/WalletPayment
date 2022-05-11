@@ -1,17 +1,14 @@
-package com.example.demo.dto.request.payment;
+package com.example.demo.dto.request.merchant;
 
 import com.example.demo.dto.request.IRequestData;
 import lombok.Data;
 
 @Data
-public class PaymentReq implements IRequestData {
+public class MerchantReq implements IRequestData {
     int merchantId;
     long amount;
     int orderId;
     String orderDescription;
-    String phoneNumber;
-    String password;
     String returnUrl;
     String secureCode;
-    int transactionId;
 }

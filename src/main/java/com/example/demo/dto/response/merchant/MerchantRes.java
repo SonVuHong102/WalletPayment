@@ -1,12 +1,12 @@
-package com.example.demo.dto.response.wallet;
+package com.example.demo.dto.response.merchant;
 
 import com.example.demo.dto.response.IResponseData;
-import com.example.demo.model.Wallet;
+import com.example.demo.model.Merchant;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import lombok.Data;
 
-@Data
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
-public class WalletRes implements IResponseData {
-    Wallet wallet;
+@Data
+public class MerchantRes implements IResponseData {
+    Merchant merchant;
 }

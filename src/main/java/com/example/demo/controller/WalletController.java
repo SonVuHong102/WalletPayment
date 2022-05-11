@@ -1,11 +1,13 @@
 package com.example.demo.controller;
 
-import com.example.demo.dto.request.BaseRequestData;
+import com.example.demo.dto.request.merchant.MerchantReq;
+import com.example.demo.dto.request.transaction.TransactionReq;
+import com.example.demo.dto.request.wallet.WalletReq;
+import com.example.demo.dto.response.merchant.MerchantRes;
+import com.example.demo.dto.response.transaction.TransactionRes;
 import com.example.demo.dto.response.wallet.WalletRes;
 import com.example.demo.service.WalletService;
-import com.example.demo.utils.exception.ApplicationException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,12 +21,43 @@ public class WalletController extends BaseController {
 
     @PostMapping(value = "merchantVerify")
     @ResponseBody
-    public ResponseEntity merchantVerify(@RequestBody BaseRequestData baseRequestData) {
-        try {
-            WalletRes response = walletService.merchantVerify(baseRequestData);
-            return success(response);
-        } catch (ApplicationException e) {
-            return error(e.getCode(), e.getMessage());
-        }
+    public MerchantRes merchantVerify(@RequestBody MerchantReq merchantReq) {
+        return walletService.merchantVerify(merchantReq);
+    }
+
+    @PostMapping(value = "walletCheck")
+    @ResponseBody
+    public WalletRes walletCheck(@RequestBody WalletReq walletReq) {
+        return walletService.walletCheck(walletReq);
+    }
+
+    @PostMapping(value = "sendOTP")
+    @ResponseBody
+    public WalletRes sendOTP(@RequestBody WalletReq walletReq) {
+        return walletService.sendOTP(walletReq);
+    }
+
+    @PostMapping(value = "otpAuthenticate")
+    @ResponseBody
+    public WalletRes otpAuthenticate(@RequestBody WalletReq walletReq) {
+        return walletService.otpAuthenticate(walletReq);
+    }
+
+    @PostMapping(value = "balanceCheck")
+    @ResponseBody
+    public WalletRes balanceCheck(@RequestBody WalletReq walletReq) {
+        return walletService.balanceCheck(walletReq);
+    }
+
+    @PostMapping(value = "makeTransaction")
+    @ResponseBody
+    public TransactionRes makeTransaction(@RequestBody TransactionReq transactionReq) {
+        return walletService.makeTransaction(transactionReq);
+    }
+
+    @PostMapping(value = "getTransaction")
+    @ResponseBody
+    public TransactionRes getTransaction(@RequestBody TransactionReq transactionReq) {
+        return walletService.getTransaction(transactionReq);
     }
 }

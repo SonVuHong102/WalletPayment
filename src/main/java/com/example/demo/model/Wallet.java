@@ -1,5 +1,6 @@
 package com.example.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import lombok.Data;
 
 import javax.persistence.Column;
@@ -7,8 +8,9 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "walletTbl")
+@Table(name = "wallettbl")
 @Data
+@JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class Wallet extends BaseEntity {
     @Column(nullable = false)
     String owner;
