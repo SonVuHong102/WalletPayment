@@ -8,7 +8,6 @@ import lombok.Data;
 @Data
 @JsonAutoDetect(fieldVisibility = JsonAutoDetect.Visibility.ANY)
 public class PaymentRes implements IResponseData {
-    String status;
-    String returnUrl;
     Transaction transaction;
+    String status;
 }

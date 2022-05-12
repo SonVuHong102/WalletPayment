@@ -4,6 +4,7 @@ import com.example.demo.dto.request.otp.OTPReq;
 import com.example.demo.dto.request.payment.PaymentReq;
 import com.example.demo.dto.request.transaction.TransactionReq;
 import com.example.demo.dto.request.wallet.WalletReq;
+import com.example.demo.dto.response.CheckingRes;
 import com.example.demo.dto.response.merchant.MerchantRes;
 import com.example.demo.dto.response.otp.OTPRes;
 import com.example.demo.dto.response.payment.PaymentRes;
@@ -11,6 +12,7 @@ import com.example.demo.dto.response.transaction.TransactionRes;
 import com.example.demo.dto.response.wallet.WalletRes;
 import com.example.demo.form.InputForm;
 import com.example.demo.form.InputOTP;
+import com.example.demo.form.InputTMDT;
 import com.example.demo.model.OTP;
 import com.example.demo.service.TransactionService;
 import com.example.demo.service.WalletService;
@@ -41,26 +43,30 @@ public class WalletController extends BaseController {
     OTPService otpService;
 
     @GetMapping("/")
-    public String input() {
+    public String input(Model model) {
+        InputTMDT inputTMDT = new InputTMDT();
+        model.addAttribute("inputTMDT",inputTMDT);
         return "tmdt";
     }
 
-    @PostMapping(value = "/merchantVerify")
-    public String merchantVerify(@RequestParam(value = "sp_merchantId") Integer sp_merchantId,
-                                 @RequestParam(value = "sp_amount") long sp_amount,
-                                 @RequestParam(value = "sp_orderId") Integer sp_orderId,
-                                 @RequestParam(value = "sp_orderDescription") String sp_orderDescription,
-                                 @RequestParam(value = "sp_returnUrl") String sp_returnUrl,
-                                 @RequestParam(value = "sp_secureHash") String sp_secureHash,
-                                 Model model,
-                                 HttpServletRequest request) {
+    @GetMapping("/shopooresult")
+    public String shopooresult(Model model) {
+        InputTMDT inputTMDT = new InputTMDT();
+        model.addAttribute("inputTMDT",inputTMDT);
+        return "shopooresult";
+    }
+
+    @GetMapping(value = "/pay")
+    public String pay(Model model,
+                                 HttpServletRequest request,
+                                 @ModelAttribute("inputTMDT") InputTMDT inputTMDT) {
         PaymentReq paymentReq = new PaymentReq();
-        paymentReq.setSp_merchantId(sp_merchantId);
-        paymentReq.setSp_amount(sp_amount);
-        paymentReq.setSp_orderDescription(sp_orderDescription);
-        paymentReq.setSp_orderId(sp_orderId);
-        paymentReq.setSp_returnUrl(sp_returnUrl);
-        paymentReq.setSp_secureHash(sp_secureHash);
+        paymentReq.setSp_merchantId(inputTMDT.getSp_merchantId());
+        paymentReq.setSp_amount(inputTMDT.getSp_amount());
+        paymentReq.setSp_orderDescription(inputTMDT.getSp_orderDescription());
+        paymentReq.setSp_orderId(inputTMDT.getSp_orderId());
+        paymentReq.setSp_returnUrl(inputTMDT.getSp_returnUrl());
+        paymentReq.setSp_secureHash(inputTMDT.getSp_secureHash());
         MerchantRes merchantRes = walletService.merchantVerify(paymentReq);
         if(merchantRes.getMerchant() != null) {
             InputForm inputForm = new InputForm();
@@ -132,11 +138,21 @@ public class WalletController extends BaseController {
 
     @PostMapping(value = "transactionchecking")
     @ResponseBody
-    public PaymentRes transactionchecking(PaymentReq paymentReq) {
-        PaymentRes paymentRes = walletService.transactionchecking(paymentReq);
-        if(paymentRes.getTransaction() == null)
-            return null;
-        return paymentRes;
+    public CheckingRes transactionchecking(@ModelAttribute("inputTMDT") InputTMDT inputTMDT) {
+        PaymentRes paymentRes = walletService.transactionchecking(inputTMDT.getSp_merchantId(),inputTMDT.getSp_amount(),inputTMDT.getSp_orderId(),inputTMDT.getSp_secureHash());
+        CheckingRes checkingRes = new CheckingRes();
+        checkingRes.setSp_merchantId(inputTMDT.getSp_merchantId());
+        checkingRes.setSp_amount(inputTMDT.getSp_amount());
+        checkingRes.setSp_orderId(inputTMDT.getSp_orderId());
+        checkingRes.setSp_secureHash(inputTMDT.getSp_secureHash());
+        if(paymentRes.getTransaction() == null) {
+            checkingRes.setErrorCode("001");
+            checkingRes.setMessage("Khong tim thay giao dich");
+        } else {
+            checkingRes.setErrorCode("000");
+            checkingRes.setMessage("Giao dich thanh cong");
+        }
+        return checkingRes;
     }
 
 }

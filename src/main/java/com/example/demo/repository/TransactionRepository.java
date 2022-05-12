@@ -11,6 +11,6 @@ public interface TransactionRepository extends JpaRepository<Transaction, Intege
     @Query("SELECT t FROM Transaction t WHERE t.id = ?1")
     Transaction getById(int id);
 
-    @Query("SELECT t FROM Transaction t WHERE t.id = ?1 AND t.sp_orderId = ?2")
-    Transaction getTransaction(int id,int orderId);
+    @Query("SELECT t FROM Transaction t WHERE t.sp_merchantId = ?1 AND t.sp_orderId = ?2")
+    Transaction getTransaction(int merchantId,int orderId);
 }

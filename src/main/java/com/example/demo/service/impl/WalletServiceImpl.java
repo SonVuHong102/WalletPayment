@@ -134,9 +134,9 @@ public class WalletServiceImpl implements WalletService {
     }
 
     @Override
-    public PaymentRes transactionchecking(PaymentReq paymentReq) {
+    public PaymentRes transactionchecking(Integer sp_merchantId,long sp_amount,Integer sp_orderId,String sp_secureHash) {
         PaymentRes paymentRes = new PaymentRes();
-        Transaction transaction = transactionRepository.getTransaction(paymentReq.getSp_merchantId(),paymentReq.getSp_orderId());
+        Transaction transaction = transactionRepository.getTransaction(sp_merchantId,sp_orderId);
         paymentRes.setTransaction(transaction);
         return paymentRes;
     }

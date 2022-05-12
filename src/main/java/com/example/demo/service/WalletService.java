@@ -17,5 +17,5 @@ public interface WalletService {
     WalletRes balanceCheck(WalletReq walletReq);
     TransactionRes makeTransaction(TransactionReq transactionReq);
     TransactionRes getTransaction(TransactionReq transactionReq);
-    PaymentRes transactionchecking(PaymentReq paymentReq);
+    PaymentRes transactionchecking(Integer sp_merchantId,long sp_amount,Integer sp_orderId,String sp_secureHash);
 }

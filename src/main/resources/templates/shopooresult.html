@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+  <title>Kết quả thanh toán</title>
+</head>
+<body>
+<div class="header bg-warning">
+  <div class="container">
+    <div class="header ">
+      <div class="container">
+        <div class="d-flex align-baseline py-3">
+          <h1 class="">
+            Shopoo |
+          </h1>
+          <h1 class="text-success">Thanh toán thành công</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container">
+  <h3>Cảm ơn bạn đã lựa chọn Shopoo. Bạn có thể tra cứu đơn hàng tại mục Tài khoản của tôi >> Đơn hàng.</h3>
+  <form method="post" th:action="@{/transactionchecking}" th:object="${inputTMDT}" class="mt-5">
+    <h1>Kiểm tra thanh toán</h1>
+    <div class="row">
+      <div class="col-5">
+        <h5>Merchant ID : </h5>
+        <input type="text" th:field="*{sp_merchantId}" class="form-control my-3">
+        <h5>Amount : </h5>
+        <input type="text" th:field="*{sp_amount}" class="form-control my-3">
+        <h5>OrderId : </h5>
+        <input type="text" th:field="*{sp_orderId}" class="form-control my-3">
+        <h5>OrderDesciption : </h5>
+        <input type="text" th:field="*{sp_secureHash}" class="form-control my-3">
+        <input type="submit" value="tiến hành" class="btn btn-primary">
+        </div>
+    </div>
+  </form>
+</div>
+</div>
+</body>
+</html>

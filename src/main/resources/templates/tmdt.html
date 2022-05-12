@@ -2,16 +2,96 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Thanh toán trực tuyến | SONPAY</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <title>Thanh toán đơn hàng</title>
 </head>
 <body>
-<form method="post"
-      th:action="@{/merchantVerify(sp_merchantId=1,sp_amount='15000',sp_orderId=100,sp_orderDescription='Some Description',sp_returnUrl='https://www.google.com',sp_secureHash='Some Hash')}">
-    <input type="submit" value="thanh toán">
-</form>
-<form method="post"
-      th:action="@{/transactionchecking(sp_merchantId=1,sp_amount='15000',sp_orderId=100,sp_orderDescription='Some Description',sp_secureCode='Some Code')}">
-    <input type="submit" value="kiểm tra">
-</form>
+<div class="header bg-warning">
+    <div class="container">
+        <div class="d-flex align-baseline py-3">
+            <h1 class="">
+                Shopoo |
+            </h1>
+            <h1>Thanh toán đơn hàng</h1>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <form th:action="@{/pay}" th:object="${inputTMDT}" method="get">
+        <div class="row">
+            <div class="col-8">
+                <input type="text" th:field="*{sp_merchantId}" placeholder="Merchant Id" class="form-control my-3">
+                <input type="text" th:field="*{sp_amount}" placeholder="Amount" class="form-control my-3">
+                <input type="text" th:field="*{sp_orderId}" placeholder="Order Id" class="form-control my-3">
+                <input type="text" th:field="*{sp_orderDescription}" placeholder="Order Description" class="form-control my-3">
+                <input type="text" th:field="*{sp_returnUrl}" placeholder="Return URL" class="form-control my-3">
+                <h2>Thông tin người nhận</h2>
+                <div class="form-group mt-2 row">
+                    <div class="col-4">
+                        Họ tên người nhận
+                    </div>
+                    <div class="col-8">
+                        <input type="text" name="fullname" class="form-control" placeholder="" id="">
+                    </div>
+                </div>
+                <div class="form-group mt-2 row">
+                    <div class="col-4">
+                        Số điện thoại
+                    </div>
+                    <div class="col-8">
+                        <input type="text" name="phonenumber" class="form-control" placeholder="" id="">
+                    </div>
+                </div>
+                <div class="form-group mt-2 row">
+                    <div class="col-4">
+                        Địa chỉ nhận hàng
+                    </div>
+                    <div class="col-8">
+                        <input type="text" name="address" class="form-control" placeholder="" id="">
+                    </div>
+                </div>
+                <h2 class="my-3">Phương thức thanh toán</h2>
+                <div class="form-group m-2 row">
+                    <div class="col-12">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
+                            <label class="form-check-label" for="flexRadioDefault1">
+                                Thanh toán khi nhận hàng
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault2" checked>
+                            <label class="form-check-label" for="flexRadioDefault2">
+                                Ví SonPay
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-4">
+                <h2>Giỏ hàng của bạn</h2>
+                <div class="form-group mt-2 row">
+                    <div class="col-6">
+                        Mã đơn hàng
+                    </div>
+                    <div class="col-6">
+                        <h6>202210218823</h6>
+                    </div>
+                </div>
+                <div class="form-group mt-2 row">
+                    <div class="col-6">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="my-3">
+            <input type="submit" value="Tiến hành thanh toán" class="btn btn-primary">
+        </div>
+    </form>
+</div>
 </body>
 </html>
